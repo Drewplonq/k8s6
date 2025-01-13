@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemon
+  labels:
+    app: multitool
+spec:
+  selector:
+    matchLabels:
+     name: mtdaemon
+  template:
+    metadata:
+      labels:
+        name: mtdaemon
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        volumeMounts:
+        - name: logdir
+          mountPath: /syslog
+      volumes:
+      - name: logdir
+        hostPath:
+          path: /var/log/syslog
